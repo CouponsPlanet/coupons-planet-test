@@ -1,109 +1,129 @@
-// Service Worker pour CouponsPlanet - GitHub Pages Ready
-const CACHE_NAME = 'couponsplanet-v1.3';
-const STATIC_CACHE = 'couponsplanet-static-v1.3';
-const DYNAMIC_CACHE = 'couponsplanet-dynamic-v1.3';
+// Service Worker Ultra-Optimisé pour Performance
+const CACHE_NAME = 'couponsplanet-perf-v2.0';
+const STATIC_CACHE = 'couponsplanet-static-v2.0';
+const DYNAMIC_CACHE = 'couponsplanet-dynamic-v2.0';
 
-// Ressources à mettre en cache immédiatement
-const STATIC_ASSETS = [
+// Assets critiques à cacher immédiatement
+const CRITICAL_ASSETS = [
     './',
     './index.html',
-    './manifest.json',
+    './manifest.json'
+];
+
+// Assets secondaires (chargés en arrière-plan)
+const SECONDARY_ASSETS = [
     'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'
 ];
 
-// URLs à ne pas mettre en cache
-const EXCLUDE_PATTERNS = [
-    /chrome-extension/,
-    /localhost:\d+/,
-    /127\.0\.0\.1/,
-    /analytics/,
-    /gtag/,
-    /facebook\.net/,
-    /doubleclick\.net/
-];
-
-// Installation du Service Worker
+// Installation ultra-rapide
 self.addEventListener('install', event => {
-    console.log('🔧 Service Worker: Installing v1.3...');
+    console.log('🚀 SW Ultra-Perf: Installing...');
     
     event.waitUntil(
         caches.open(STATIC_CACHE)
             .then(cache => {
-                console.log('📦 Service Worker: Caching static assets');
-                return cache.addAll(STATIC_ASSETS);
+                console.log('📦 Caching critical assets');
+                return cache.addAll(CRITICAL_ASSETS);
             })
             .then(() => {
-                console.log('✅ Service Worker: Static assets cached');
+                console.log('✅ Critical assets cached');
                 return self.skipWaiting();
             })
             .catch(error => {
-                console.error('❌ Service Worker: Installation failed', error);
+                console.error('❌ SW installation failed:', error);
             })
     );
 });
 
-// Activation du Service Worker
+// Activation rapide
 self.addEventListener('activate', event => {
-    console.log('✅ Service Worker: Activating v1.3...');
+    console.log('⚡ SW Ultra-Perf: Activating...');
     
     event.waitUntil(
-        caches.keys()
-            .then(cacheNames => {
+        Promise.all([
+            // Nettoyer les anciens caches
+            caches.keys().then(cacheNames => {
                 return Promise.all(
                     cacheNames.map(cacheName => {
-                        // Supprimer les anciens caches
                         if (cacheName !== STATIC_CACHE && 
                             cacheName !== DYNAMIC_CACHE && 
                             cacheName !== CACHE_NAME) {
-                            console.log('🗑️ Service Worker: Deleting old cache', cacheName);
+                            console.log('🗑️ Deleting old cache:', cacheName);
                             return caches.delete(cacheName);
                         }
                     })
                 );
-            })
-            .then(() => {
-                console.log('🚀 Service Worker: Activated and ready!');
-                return self.clients.claim();
-            })
+            }),
+            // Prendre le contrôle immédiatement
+            self.clients.claim(),
+            // Précharger les assets secondaires en arrière-plan
+            preloadSecondaryAssets()
+        ])
     );
 });
 
-// Interception des requêtes avec stratégies optimisées
+// Préchargement en arrière-plan
+async function preloadSecondaryAssets() {
+    try {
+        const cache = await caches.open(STATIC_CACHE);
+        
+        // Charger les assets secondaires sans bloquer
+        SECONDARY_ASSETS.forEach(url => {
+            fetch(url).then(response => {
+                if (response.ok) {
+                    cache.put(url, response);
+                }
+            }).catch(() => {
+                // Ignore errors for secondary assets
+            });
+        });
+        
+        console.log('📦 Secondary assets preloading started');
+    } catch (error) {
+        console.warn('Secondary assets preload failed:', error);
+    }
+}
+
+// Stratégies de cache ultra-optimisées
 self.addEventListener('fetch', event => {
     const request = event.request;
     const url = new URL(request.url);
     
-    // Ignorer certaines URLs (analytics, extensions, etc.)
-    if (EXCLUDE_PATTERNS.some(pattern => pattern.test(request.url))) {
-        return;
-    }
-    
     // Ignorer les requêtes non-GET
-    if (request.method !== 'GET') {
+    if (request.method !== 'GET') return;
+    
+    // Ignorer certaines URLs
+    if (url.pathname.includes('analytics') || 
+        url.pathname.includes('tracking') ||
+        url.hostname.includes('google-analytics')) {
         return;
     }
     
-    // Stratégie différente selon le type de ressource
-    if (isStaticAsset(request)) {
-        event.respondWith(cacheFirst(request));
+    // Stratégie selon le type de ressource
+    if (isMainDocument(request)) {
+        event.respondWith(fastDocumentStrategy(request));
+    } else if (isStaticAsset(request)) {
+        event.respondWith(ultraCacheFirstStrategy(request));
     } else if (isAPIRequest(request)) {
-        event.respondWith(networkFirstWithFallback(request));
-    } else if (isImageRequest(request)) {
-        event.respondWith(cacheFirstImage(request));
-    } else if (request.mode === 'navigate') {
-        event.respondWith(networkFirstWithHTMLFallback(request));
+        event.respondWith(networkFirstStrategy(request));
     } else {
-        event.respondWith(networkFirst(request));
+        event.respondWith(standardFetch(request));
     }
 });
 
-// Vérifications de type de ressource
+// Détection du type de ressource
+function isMainDocument(request) {
+    return request.mode === 'navigate' || 
+           request.destination === 'document' ||
+           request.url.endsWith('.html') ||
+           request.url.endsWith('/');
+}
+
 function isStaticAsset(request) {
     const url = request.url;
-    return url.includes('.css') || 
-           url.includes('.js') || 
+    return url.includes('.js') || 
+           url.includes('.css') || 
            url.includes('cdn.jsdelivr.net') ||
-           url.includes('fonts.googleapis.com') ||
            url.includes('manifest.json');
 }
 
@@ -111,86 +131,29 @@ function isAPIRequest(request) {
     return request.url.includes('supabase.co');
 }
 
-function isImageRequest(request) {
-    return request.destination === 'image' ||
-           request.url.includes('.jpg') ||
-           request.url.includes('.jpeg') ||
-           request.url.includes('.png') ||
-           request.url.includes('.gif') ||
-           request.url.includes('.webp') ||
-           request.url.includes('.svg') ||
-           request.url.includes('.ico');
-}
-
-// Stratégie Cache First (pour les assets statiques)
-async function cacheFirst(request) {
+// Stratégie ultra-rapide pour les documents
+async function fastDocumentStrategy(request) {
     try {
+        // Essayer le cache d'abord pour vitesse maximale
         const cache = await caches.open(STATIC_CACHE);
         const cachedResponse = await cache.match(request);
         
         if (cachedResponse) {
-            console.log('📦 Cache hit (static):', request.url.split('/').pop());
-            return cachedResponse;
-        }
-        
-        console.log('🌐 Fetching (static):', request.url.split('/').pop());
-        const networkResponse = await fetch(request);
-        
-        if (networkResponse.ok && networkResponse.status < 400) {
-            const responseClone = networkResponse.clone();
-            cache.put(request, responseClone);
-        }
-        
-        return networkResponse;
-    } catch (error) {
-        console.error('❌ Cache first failed:', error);
-        return new Response('Service Unavailable', { 
-            status: 503,
-            statusText: 'Service Worker Cache Error'
-        });
-    }
-}
-
-// Stratégie Network First (pour les APIs et données dynamiques)
-async function networkFirst(request) {
-    try {
-        const networkResponse = await fetch(request);
-        
-        if (networkResponse.ok && networkResponse.status < 400) {
-            const cache = await caches.open(DYNAMIC_CACHE);
+            console.log('⚡ Instant cache hit for document');
             
-            // Mettre en cache seulement les GET requests réussies
-            if (request.method === 'GET') {
-                const responseClone = networkResponse.clone();
-                cache.put(request, responseClone);
-            }
-        }
-        
-        return networkResponse;
-    } catch (error) {
-        console.log('🌐 Network failed, trying cache for:', request.url.split('?')[0].split('/').pop());
-        
-        const cache = await caches.open(DYNAMIC_CACHE);
-        const cachedResponse = await cache.match(request);
-        
-        if (cachedResponse) {
-            console.log('📦 Cache fallback hit');
+            // Mettre à jour en arrière-plan
+            fetch(request).then(response => {
+                if (response.ok) {
+                    cache.put(request, response.clone());
+                }
+            }).catch(() => {});
+            
             return cachedResponse;
         }
         
-        console.error('❌ Network first fallback failed');
-        return new Response('Offline - No cached version available', { 
-            status: 503,
-            statusText: 'Service Worker Network Error'
-        });
-    }
-}
-
-// Stratégie Network First avec fallback riche pour APIs
-async function networkFirstWithFallback(request) {
-    try {
+        // Sinon fetch avec timeout rapide
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        const timeoutId = setTimeout(() => controller.abort(), 3000);
         
         const networkResponse = await fetch(request, {
             signal: controller.signal
@@ -199,369 +162,225 @@ async function networkFirstWithFallback(request) {
         clearTimeout(timeoutId);
         
         if (networkResponse.ok) {
-            const cache = await caches.open(DYNAMIC_CACHE);
-            const responseClone = networkResponse.clone();
-            
-            // Cache API responses with TTL info in headers
-            const headers = new Headers(responseClone.headers);
-            headers.set('sw-cached-at', Date.now().toString());
-            
-            const responseWithHeaders = new Response(responseClone.body, {
-                status: responseClone.status,
-                statusText: responseClone.statusText,
-                headers: headers
-            });
-            
-            cache.put(request, responseWithHeaders);
-        }
-        
-        return networkResponse;
-    } catch (error) {
-        if (error.name === 'AbortError') {
-            console.log('⏱️ Request timeout, trying cache');
-        } else {
-            console.log('🌐 Network failed, trying cache for API');
-        }
-        
-        const cache = await caches.open(DYNAMIC_CACHE);
-        const cachedResponse = await cache.match(request);
-        
-        if (cachedResponse) {
-            // Check cache age
-            const cachedAt = cachedResponse.headers.get('sw-cached-at');
-            const cacheAge = cachedAt ? Date.now() - parseInt(cachedAt) : 0;
-            const maxAge = 5 * 60 * 1000; // 5 minutes for API cache
-            
-            if (cacheAge < maxAge) {
-                console.log('📦 Fresh cache hit for API');
-                return cachedResponse;
-            } else {
-                console.log('🕐 Cache expired but using anyway (offline)');
-                // Add header to indicate stale cache
-                const headers = new Headers(cachedResponse.headers);
-                headers.set('sw-cache-status', 'stale');
-                
-                return new Response(cachedResponse.body, {
-                    status: cachedResponse.status,
-                    statusText: cachedResponse.statusText,
-                    headers: headers
-                });
-            }
-        }
-        
-        // Return structured offline response for API calls
-        return new Response(JSON.stringify({
-            error: 'Network unavailable',
-            message: 'Please check your internet connection',
-            offline: true
-        }), {
-            status: 503,
-            headers: {
-                'Content-Type': 'application/json',
-                'sw-fallback': 'offline-api'
-            }
-        });
-    }
-}
-
-// Stratégie pour les pages HTML avec fallback
-async function networkFirstWithHTMLFallback(request) {
-    try {
-        const networkResponse = await fetch(request);
-        
-        if (networkResponse.ok) {
-            const cache = await caches.open(DYNAMIC_CACHE);
             cache.put(request, networkResponse.clone());
         }
         
         return networkResponse;
+        
     } catch (error) {
-        console.log('🌐 Page request failed, trying cache');
+        console.log('🌐 Document strategy fallback');
         
-        const cache = await caches.open(DYNAMIC_CACHE);
-        const cachedResponse = await cache.match(request);
+        // Fallback vers cache existant ou page offline
+        const cache = await caches.open(STATIC_CACHE);
+        const fallback = await cache.match('./index.html');
         
-        if (cachedResponse) {
-            return cachedResponse;
+        if (fallback) {
+            return fallback;
         }
         
-        // Fallback to index.html for SPA navigation
-        const indexFallback = await cache.match('./index.html');
-        if (indexFallback) {
-            return indexFallback;
-        }
-        
-        // Last resort: basic offline page
-        return new Response(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>Offline - CouponsPlanet</title>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <style>
-                    body { 
-                        font-family: Arial, sans-serif; 
-                        text-align: center; 
-                        padding: 50px;
-                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                        color: white;
-                        min-height: 100vh;
-                        margin: 0;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        flex-direction: column;
-                    }
-                    .offline-container {
-                        background: rgba(255,255,255,0.1);
-                        padding: 40px;
-                        border-radius: 20px;
-                        backdrop-filter: blur(10px);
-                    }
-                    h1 { font-size: 3rem; margin-bottom: 20px; }
-                    p { font-size: 1.2rem; margin-bottom: 30px; }
-                    button {
-                        background: white;
-                        color: #667eea;
-                        border: none;
-                        padding: 15px 30px;
-                        border-radius: 25px;
-                        font-size: 1rem;
-                        font-weight: bold;
-                        cursor: pointer;
-                        transition: transform 0.3s ease;
-                    }
-                    button:hover { transform: translateY(-2px); }
-                </style>
-            </head>
-            <body>
-                <div class="offline-container">
-                    <h1>🌐 Hors ligne</h1>
-                    <p>Impossible de se connecter à Internet.<br>Veuillez vérifier votre connexion.</p>
-                    <button onclick="location.reload()">🔄 Réessayer</button>
-                </div>
-            </body>
-            </html>
-        `, {
-            status: 503,
-            headers: {
-                'Content-Type': 'text/html',
-                'sw-fallback': 'offline-page'
-            }
+        // Page offline minimale
+        return new Response(getOfflinePage(), {
+            headers: { 'Content-Type': 'text/html' }
         });
     }
 }
 
-// Stratégie optimisée pour les images avec compression
-async function cacheFirstImage(request) {
+// Stratégie cache-first ultra-optimisée
+async function ultraCacheFirstStrategy(request) {
     try {
-        const cache = await caches.open(DYNAMIC_CACHE);
+        const cache = await caches.open(STATIC_CACHE);
         const cachedResponse = await cache.match(request);
         
         if (cachedResponse) {
+            console.log('📦 Ultra cache hit');
             return cachedResponse;
         }
         
+        console.log('🌐 Fetching static asset');
         const networkResponse = await fetch(request);
         
-        if (networkResponse.ok) {
-            // Mettre en cache seulement les images < 2MB
-            const contentLength = networkResponse.headers.get('content-length');
-            const maxSize = 2 * 1024 * 1024; // 2MB
+        if (networkResponse.ok && networkResponse.status < 400) {
+            // Clone pour éviter les problèmes de stream
+            const responseToCache = networkResponse.clone();
             
-            if (!contentLength || parseInt(contentLength) < maxSize) {
-                cache.put(request, networkResponse.clone());
-            }
+            // Cache asynchrone pour ne pas bloquer
+            cache.put(request, responseToCache).catch(() => {});
         }
         
         return networkResponse;
+        
     } catch (error) {
-        console.error('❌ Image loading failed:', error);
+        console.error('Static asset failed:', error);
         
-        // Retourner une image placeholder SVG en cas d'échec
-        const placeholderSVG = `
-            <svg width="55" height="55" xmlns="http://www.w3.org/2000/svg">
-                <rect width="55" height="55" fill="#f0f0f0" stroke="#ddd" stroke-width="1"/>
-                <text x="27.5" y="32" text-anchor="middle" fill="#999" font-size="12" font-family="Arial">
-                    IMG
-                </text>
-            </svg>
-        `;
-        
-        return new Response(placeholderSVG, {
-            headers: {
-                'Content-Type': 'image/svg+xml',
-                'Cache-Control': 'no-cache',
-                'sw-fallback': 'placeholder-image'
-            }
-        });
-    }
-}
-
-// Gestion des messages du client
-self.addEventListener('message', event => {
-    const { type, action } = event.data || {};
-    
-    switch (type) {
-        case 'CLEAR_CACHE':
-            event.waitUntil(clearAllCaches());
-            break;
-            
-        case 'SKIP_WAITING':
-            self.skipWaiting();
-            break;
-            
-        case 'CACHE_STATUS':
-            event.waitUntil(getCacheStatus().then(status => {
-                event.ports[0].postMessage(status);
-            }));
-            break;
-            
-        case 'PREFETCH_IMAGES':
-            if (event.data.urls) {
-                event.waitUntil(prefetchImages(event.data.urls));
-            }
-            break;
-    }
-});
-
-// Fonctions utilitaires
-async function clearAllCaches() {
-    try {
-        const cacheNames = await caches.keys();
-        await Promise.all(
-            cacheNames.map(cacheName => caches.delete(cacheName))
-        );
-        console.log('🗑️ All caches cleared');
-    } catch (error) {
-        console.error('❌ Error clearing caches:', error);
-    }
-}
-
-async function getCacheStatus() {
-    try {
-        const cacheNames = await caches.keys();
-        const status = {
-            caches: cacheNames.length,
-            version: CACHE_NAME
-        };
-        
-        for (const cacheName of cacheNames) {
-            const cache = await caches.open(cacheName);
-            const keys = await cache.keys();
-            status[cacheName] = keys.length;
+        // Pour JS/CSS critiques, retourner une version vide pour éviter les erreurs
+        if (request.url.includes('.js')) {
+            return new Response('console.log("Fallback JS");', {
+                headers: { 'Content-Type': 'application/javascript' }
+            });
         }
         
-        return status;
-    } catch (error) {
-        return { error: error.message };
+        if (request.url.includes('.css')) {
+            return new Response('/* Fallback CSS */', {
+                headers: { 'Content-Type': 'text/css' }
+            });
+        }
+        
+        return new Response('Offline', { status: 503 });
     }
 }
 
-async function prefetchImages(urls) {
+// Stratégie network-first pour APIs
+async function networkFirstStrategy(request) {
     try {
-        const cache = await caches.open(DYNAMIC_CACHE);
-        const promises = urls.slice(0, 10).map(async url => { // Limite à 10 images
-            try {
-                const response = await fetch(url);
-                if (response.ok) {
-                    await cache.put(url, response);
-                }
-            } catch (error) {
-                console.warn('Failed to prefetch image:', url);
-            }
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 8000);
+        
+        const networkResponse = await fetch(request, {
+            signal: controller.signal
         });
         
-        await Promise.all(promises);
-        console.log(`📷 Prefetched ${urls.length} images`);
+        clearTimeout(timeoutId);
+        
+        if (networkResponse.ok) {
+            // Cache les réponses API réussies
+            const cache = await caches.open(DYNAMIC_CACHE);
+            cache.put(request, networkResponse.clone()).catch(() => {});
+        }
+        
+        return networkResponse;
+        
     } catch (error) {
-        console.error('❌ Image prefetch failed:', error);
+        console.log('API fallback to cache');
+        
+        const cache = await caches.open(DYNAMIC_CACHE);
+        const cachedResponse = await cache.match(request);
+        
+        if (cachedResponse) {
+            // Ajouter header pour indiquer que c'est du cache
+            const headers = new Headers(cachedResponse.headers);
+            headers.set('X-Cache-Status', 'stale');
+            
+            return new Response(cachedResponse.body, {
+                status: cachedResponse.status,
+                statusText: cachedResponse.statusText,
+                headers: headers
+            });
+        }
+        
+        // Fallback API response
+        return new Response(JSON.stringify({
+            error: 'Network unavailable',
+            offline: true,
+            cached: false
+        }), {
+            status: 503,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
 }
 
-// Background Sync pour les actions en mode offline
-self.addEventListener('sync', event => {
-    console.log('🔄 Background sync triggered:', event.tag);
-    
-    switch (event.tag) {
-        case 'background-sync':
-            event.waitUntil(doBackgroundSync());
-            break;
-        case 'cache-cleanup':
-            event.waitUntil(cleanupOldCaches());
-            break;
+// Fetch standard pour autres ressources
+async function standardFetch(request) {
+    try {
+        return await fetch(request);
+    } catch (error) {
+        return new Response('Offline', { status: 503 });
+    }
+}
+
+// Page offline minimale
+function getOfflinePage() {
+    return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - CouponsPlanet</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            padding: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 20px; }
+        p { font-size: 1.1rem; margin-bottom: 30px; line-height: 1.6; }
+        button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        button:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Mode Hors Ligne</h1>
+        <p>Vous êtes actuellement hors ligne. L'application utilisera les données en cache disponibles.</p>
+        <button onclick="location.reload()">🔄 Réessayer</button>
+    </div>
+</body>
+</html>`;
+}
+
+// Nettoyage automatique du cache
+self.addEventListener('message', event => {
+    if (event.data && event.data.type === 'CACHE_CLEANUP') {
+        cleanupCache();
     }
 });
 
-async function doBackgroundSync() {
-    try {
-        console.log('📡 Performing background sync...');
-        // Ici on peut ajouter la logique pour synchroniser
-        // les données mises en queue quand l'utilisateur était offline
-        
-        // Exemple: nettoyer les vieux caches
-        await cleanupOldCaches();
-        
-        // Notifier les clients que la sync est terminée
-        const clients = await self.clients.matchAll();
-        clients.forEach(client => {
-            client.postMessage({
-                type: 'BACKGROUND_SYNC_COMPLETE',
-                timestamp: Date.now()
-            });
-        });
-        
-    } catch (error) {
-        console.error('❌ Background sync failed:', error);
-    }
-}
-
-async function cleanupOldCaches() {
+async function cleanupCache() {
     try {
         const cache = await caches.open(DYNAMIC_CACHE);
         const requests = await cache.keys();
         const now = Date.now();
         const maxAge = 24 * 60 * 60 * 1000; // 24 heures
         
-        const deletePromises = requests.map(async request => {
+        const cleanupPromises = requests.map(async request => {
             const response = await cache.match(request);
-            const cachedAt = response?.headers.get('sw-cached-at');
+            const dateHeader = response?.headers.get('date');
             
-            if (cachedAt && (now - parseInt(cachedAt)) > maxAge) {
-                console.log('🗑️ Deleting old cache entry:', request.url.split('/').pop());
-                return cache.delete(request);
+            if (dateHeader) {
+                const responseDate = new Date(dateHeader).getTime();
+                if (now - responseDate > maxAge) {
+                    await cache.delete(request);
+                    console.log('🗑️ Cleaned old cache entry');
+                }
             }
         });
         
-        await Promise.all(deletePromises);
+        await Promise.all(cleanupPromises);
         console.log('✅ Cache cleanup completed');
+        
     } catch (error) {
-        console.error('❌ Cache cleanup failed:', error);
+        console.error('Cache cleanup failed:', error);
     }
 }
 
-// Notification de mise à jour disponible
-self.addEventListener('install', () => {
-    // Notifier les clients qu'une mise à jour est disponible
-    self.clients.matchAll().then(clients => {
-        clients.forEach(client => {
-            client.postMessage({
-                type: 'UPDATE_AVAILABLE',
-                message: 'Une nouvelle version est disponible',
-                version: CACHE_NAME
-            });
-        });
-    });
-});
+// Auto-cleanup périodique
+setInterval(() => {
+    cleanupCache();
+}, 60 * 60 * 1000); // Chaque heure
 
-// Gestion des erreurs globales
-self.addEventListener('error', event => {
-    console.error('❌ Service Worker error:', event.error);
-});
-
-self.addEventListener('unhandledrejection', event => {
-    console.error('❌ Service Worker unhandled rejection:', event.reason);
-});
-
-console.log('🚀 Service Worker v1.3 loaded and ready for GitHub Pages!');
+console.log('🚀 SW Ultra-Performance v2.0 loaded and ready!');
