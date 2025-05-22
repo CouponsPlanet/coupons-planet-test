@@ -91,6 +91,18 @@
             font-size: 14px;
             transition: all 0.3s ease;
             background: white;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .filter-group select option {
+            padding: 8px 12px;
+            max-width: 250px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .filter-group select:focus,
@@ -227,12 +239,6 @@
             flex-shrink: 0;
             border: 2px solid #e1e5e9;
             transition: opacity 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #667eea;
-            font-size: 1.5rem;
         }
 
         .merchant-logo.loading {
@@ -241,9 +247,14 @@
             animation: loading 1.5s infinite;
         }
 
-        .merchant-logo.loaded {
-            font-size: 0;
-            color: transparent;
+        .merchant-logo.error {
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.5rem;
         }
 
         .coupon-title {
@@ -595,30 +606,68 @@
             }
         }
 
-        // Smart image loading
-        function loadMerchantImage(imgElement, imageUrl, merchantName) {
-            if (!imageUrl || loadedImages.has(imageUrl)) {
-                imgElement.textContent = merchantName.charAt(0).toUpperCase();
-                return;
+        // Image lazy loading with optimized handling
+        class ImageManager {
+            static setupLazyLoading() {
+                if ('IntersectionObserver' in window) {
+                    const imageObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const img = entry.target;
+                                this.loadImage(img);
+                                observer.unobserve(img);
+                            }
+                        });
+                    }, {
+                        rootMargin: '50px 0px',
+                        threshold: 0.1
+                    });
+
+                    document.querySelectorAll('.merchant-logo[data-src]').forEach(img => {
+                        imageObserver.observe(img);
+                    });
+                }
             }
 
-            imgElement.classList.add('loading');
-            
-            const tempImg = new Image();
-            tempImg.onload = () => {
-                imgElement.src = imageUrl;
-                imgElement.textContent = '';
-                imgElement.classList.remove('loading');
-                imgElement.classList.add('loaded');
-                loadedImages.add(imageUrl);
-            };
-            
-            tempImg.onerror = () => {
-                imgElement.classList.remove('loading');
-                imgElement.textContent = merchantName.charAt(0).toUpperCase();
-            };
-            
-            tempImg.src = imageUrl;
+            static loadImage(img) {
+                const src = img.dataset.src;
+                const merchantName = img.alt || 'M';
+                
+                if (!src || loadedImages.has(src)) {
+                    img.classList.add('error');
+                    img.innerHTML = merchantName.charAt(0).toUpperCase();
+                    return;
+                }
+
+                img.classList.add('loading');
+                
+                const tempImg = new Image();
+                tempImg.onload = () => {
+                    img.src = src;
+                    img.classList.remove('loading');
+                    img.innerHTML = '';
+                    loadedImages.add(src);
+                };
+                
+                tempImg.onerror = () => {
+                    img.classList.remove('loading');
+                    img.classList.add('error');
+                    img.innerHTML = merchantName.charAt(0).toUpperCase();
+                };
+                
+                tempImg.src = src;
+            }
+
+            static preloadCriticalImages(merchants) {
+                // Précharger les 20 premiers logos
+                merchants.slice(0, 20).forEach(merchant => {
+                    if (merchant.image_uri && !loadedImages.has(merchant.image_uri)) {
+                        const img = new Image();
+                        img.onload = () => loadedImages.add(merchant.image_uri);
+                        img.src = merchant.image_uri;
+                    }
+                });
+            }
         }
 
         // Wait for Supabase to load
@@ -648,7 +697,7 @@
 
                 console.log('🚀 Starting optimized initialization...');
 
-                // Load data in optimized order
+                // Load merchants first
                 const [merchants, categories, stats] = await Promise.all([
                     loadMerchantsOptimized(),
                     loadCategoriesOptimized(),
@@ -656,6 +705,9 @@
                 ]);
 
                 console.log(`✅ Loaded: ${merchants.length} merchants, ${categories.length} categories`);
+
+                // Preload critical images
+                ImageManager.preloadCriticalImages(merchants);
 
                 // Load initial coupons (reduced for performance)
                 const { data: initialCoupons, error } = await supabase
@@ -888,7 +940,12 @@
             allMerchants.forEach(merchant => {
                 const option = document.createElement('option');
                 option.value = merchant.merchant_id;
-                option.textContent = merchant.name;
+                // Limiter la longueur du nom pour éviter que le select soit trop large
+                const merchantName = merchant.name.length > 40 ? 
+                    merchant.name.substring(0, 37) + '...' : 
+                    merchant.name;
+                option.textContent = merchantName;
+                option.title = merchant.name; // Tooltip avec le nom complet
                 merchantSelect.appendChild(option);
             });
         }
@@ -973,6 +1030,9 @@
                 container.appendChild(couponCard);
             });
 
+            // Setup lazy loading après création des cartes
+            setTimeout(() => ImageManager.setupLazyLoading(), 100);
+
             updateLoadMoreButton();
         }
 
@@ -990,9 +1050,11 @@
 
             card.innerHTML = `
                 <div class="coupon-header">
-                    <div class="merchant-logo" id="logo-${coupon.coupon_id}">
-                        ${merchantName.charAt(0).toUpperCase()}
-                    </div>
+                    <img ${merchantLogo ? `data-src="${merchantLogo}"` : ''} 
+                         alt="${merchantName}" 
+                         class="merchant-logo ${!merchantLogo ? 'error' : ''}"
+                         ${!merchantLogo ? `style="display: flex; align-items: center; justify-content: center; font-weight: bold; color: #667eea; font-size: 1.5rem;"` : ''}
+                         ${!merchantLogo ? `>${merchantName.charAt(0).toUpperCase()}</img>` : '>'}
                     <div class="coupon-title">${coupon.name || 'Coupon sans nom'}</div>
                 </div>
                 
@@ -1019,14 +1081,6 @@
                     </div>
                 </div>
             `;
-
-            // Load merchant image after card creation
-            setTimeout(() => {
-                const logoElement = document.getElementById(`logo-${coupon.coupon_id}`);
-                if (logoElement && merchantLogo) {
-                    loadMerchantImage(logoElement, merchantLogo, merchantName);
-                }
-            }, 10);
 
             return card;
         }
