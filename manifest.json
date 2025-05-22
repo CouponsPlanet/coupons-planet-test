@@ -1,0 +1,106 @@
+{
+    "name": "CouponsPlanet - Codes de Réduction",
+    "short_name": "CouponsPlanet",
+    "description": "Découvrez plus de 27,000 codes de réduction exclusifs. Économisez sur vos achats en ligne avec nos coupons vérifiés.",
+    "version": "1.3.0",
+    "start_url": "./",
+    "display": "standalone",
+    "background_color": "#667eea",
+    "theme_color": "#667eea",
+    "orientation": "portrait-primary",
+    "scope": "./",
+    "lang": "fr",
+    "dir": "ltr",
+    "categories": ["shopping", "lifestyle", "finance"],
+    "icons": [
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTIiIGZpbGw9InVybCgjZ3JhZGllbnQwKSIvPgo8dGV4dCB4PSIyNCIgeT0iMzIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjI0IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPvCfmJ/vuI88L3RleHQ+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MCIgeDE9IjAiIHkxPSIwIiB4Mj0iNDgiIHkyPSI0OCI+CjxzdG9wIHN0b3AtY29sb3I9IiM2NjdlZWEiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNzY0YmEyIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+",
+            "sizes": "48x48",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcyIiBoZWlnaHQ9IjcyIiByeD0iMTgiIGZpbGw9InVybCgjZ3JhZGllbnQwKSIvPgo8dGV4dCB4PSIzNiIgeT0iNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjM2IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPvCfmJ/vuI88L3RleHQ+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MCIgeDE9IjAiIHkxPSIwIiB4Mj0iNzIiIHkyPSI3MiI+CjxzdG9wIHN0b3AtY29sb3I9IiM2NjdlZWEiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNzY0YmEyIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+",
+            "sizes": "72x72",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMjQiIGZpbGw9InVybCgjZ3JhZGllbnQwKSIvPgo8dGV4dCB4PSI0OCIgeT0iNjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjQ4IiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPvCfmJ/vuI88L3RleHQ+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MCIgeDE9IjAiIHkxPSIwIiB4Mj0iOTYiIHkyPSI5NiI+CjxzdG9wIHN0b3AtY29sb3I9IiM2NjdlZWEiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNzY0YmEyIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+",
+            "sizes": "96x96",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjE0NCIgdmlld0JveD0iMCAwIDE0NCAxNDQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDQiIGhlaWdodD0iMTQ0IiByeD0iMzYiIGZpbGw9InVybCgjZ3JhZGllbnQwKSIvPgo8dGV4dCB4PSI3MiIgeT0iOTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIiBmb250LXNpemU9IjcyIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiPvCfmJ/vuI88L3RleHQ+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MCIgeDE9IjAiIHkxPSIwIiB4Mj0iMTQ0IiB5Mj0iMTQ0Ij4KPHN0b3Agc3RvcC1jb2xvcj0iIzY2N2VlYSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM3NjRiYTIiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4=",
+            "sizes": "144x144",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iNDgiIGZpbGw9InVybCgjZ3JhZGllbnQwKSIvPgo8dGV4dCB4PSI5NiIgeT0iMTI4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI5NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIj7wn5if77iPPC90ZXh0Pgo8ZGVmcz4KPGxpbmVhckdyYWRpZW50IGlkPSJncmFkaWVudDAiIHgxPSIwIiB5MT0iMCIgeDI9IjE5MiIgeTI9IjE5MiI+CjxzdG9wIHN0b3AtY29sb3I9IiM2NjdlZWEiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNzY0YmEyIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+",
+            "sizes": "192x192",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTI4IiBmaWxsPSJ1cmwoI2dyYWRpZW50MCkiLz4KPHN0eWxlPgouY291cG9uLWljb24geyBmb250LXNpemU6IDI1NnB4OyB9Ci5jb3Vwb24taWNvbjphZnRlciB7IGNvbnRlbnQ6ICLwn5if77iPIjsgZm9udC1mYW1pbHk6IEFyaWFsLCBzYW5zLXNlcmlmOyB9Cjwvc3R5bGU+Cjx0ZXh0IHg9IjI1NiIgeT0iMzQ0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIyNTYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiI+8J+Yn++4jzwvdGV4dD4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQwIiB4MT0iMCIgeTE9IjAiIHgyPSI1MTIiIHkyPSI1MTIiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjY3ZWVhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzc2NGJhMiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==",
+            "sizes": "512x512",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjU2OCIgdmlld0JveD0iMCAwIDMyMCA1NjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iNTY4IiBmaWxsPSJ1cmwoI2dyYWRpZW50MCkiLz4KPHN0eWxlPgoudGl0bGUgeyBmb250LXNpemU6IDI0cHg7IGZvbnQtd2VpZ2h0OiBib2xkOyBmaWxsOiB3aGl0ZTsgfQoudGV4dCB7IGZvbnQtc2l6ZTogMTZweDsgZmlsbDogd2hpdGU7IG9wYWNpdHk6IDAuOTsgfQouY2FyZCB7IGZpbGw6IHdoaXRlOyByeC6gCjBweOsgfQo8L3N0eWxlPgo8dGV4dCB4PSIxNjAiIHk9IjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0idGl0bGUiPvCfmJ/vuI8gQ291cG9uc1BsYW5ldDwvdGV4dD4KPHR4eqQgeD0iMTYwIiB5PSI2NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InRleHQiPjI3LDAwMCBjb2Rlcy1kZSByw6lkdWN0aW9uPC90ZXh0Pgo8cmVjdCB4PSIyMCIgeT0iMTAwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjEyMCIgY2xhc3M9ImNhcmQiLz4KPHR4eqQgeD0iMzAiIHk9IjEzMCIgZm9udC1zaXplPSIxNHB4IiBmaWxsPSIjMzMzIj5FeGVtcGxlLCFxcb91cG9uPKvdGV4dD4KPHR4eqQgeD0iMzAiIHk9IjE1MCIgZm9udC1zaXplPSIxMnB4IiBmaWxsPSIjNjY2Ij5SZW1pc2UgMTAhBB93VFfciBsJoFjaGF0PC90ZXh0Pgo8cmVjdCB4PSIzMCIgeT0iMTcwIiB3aWR0aD0iMjMwIiBoZWlnaHQ9IjMwIiByeD0iNSIgZmlsbD0iIzY2N2VlYSIvPgo8dGV4dCB4PSIxNDUiIHk9IjE5MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJDb3VyaWVyIj5TQVZFMTAsKKvdGV4dD4KPHR4eqQgeD0iMTYwIiB5PSI1MjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTJweCIgZmlsbD0id2hpdGUiPijDlGNvbm9taXNleiwgc3VGdGVhcyzlbiBsaWduZTwvdGV4dD4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQwIiB4MT0iMCIgeTE9IjAiIHgyPSIzMjAiIHkyPSI1NjgiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjY3ZWVhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzc2NGJhMiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==",
+            "sizes": "320x568",
+            "type": "image/svg+xml",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI1NzYiIHZpZXdCb3g9IjAgMCAxMDI0IDU3NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNTc2IiBmaWxsPSJ1cmwoI2dyYWRpZW50MCkiLz4KPHN0eWxlPgoudGl0bGUgeyBmb250LXNpemU6IDQwcHg7IGZvbnQtd2VpZ2h0OiBib2xkOyBmaWxsOiB3aGl0ZTsgfQoudGV4dCB7IGZvbnQtc2l6ZTogMjBweDsgZmlsbDogd2hpdGU7IG9wYWNpdHk6IDAuOTsgfQouY2FyZCB7IGZpbGw6IHdoaXRlOyByeDog!VweOsgfQo8L3N0eWxlPgo8dGV4dCB4PSI1MTIiIHk9IjYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBjbGFzcz0idGl0bGUiPvCfmJ/vuI8gQ291cG9uc1BsYW5ldDwvdGV4dD4KPHR4eqQgeD0iNTEyIiB5PSI5MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgY2xhc3M9InRleHQiPkRzJYzlY291dnJleiBwbHVzIGRlIDI3LDAwMCBjb2R6ZySZyOZt%X2Kjb249ZMKJYTjdl5pbuwvdGV4dD4KPHR4eqQgeD0iNTEyIiB5PSIxMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGNsYXNzPSJ0ZXh0Ij7dEMSY29ub21pc2V6IHN1ciB2b3MgYWNoYXRzIGVuIGxpZ25lPC90ZXh0Pgo8IS0tIENvdXBvbl0YWQ1IDEgLS0+CjxyZWN0IHg9IjUwIiB5PSIxNDAiIHdpZHRoPSIyODAiIGhlaWdodD0iMjAwIiBjbGFzcz0iY2FyZCIvPgo8dGV4dCB4PSI2MCIgeT0iMTcwIiBmb250LXNpemU9IjE4cHgiIGZpbGw9IiMzMzMiPkN1eUUlSZW5vaw=JnYW5hdGljPC90ZXh0Pgo8dGV4dCB4PSI2MCIgeT0iMTkwIiBmb250LXNpemU9IjE0cHgiIGZpbGw9IiM2NjYiPipSZXglc2R&EEElOWOTMiFidXIgbGFWZHNzZcYe72x28m90dGV4dD4KPHI2xCdCB4PSI2MCIgeT0iMjMwIiB3aWR0aD0iMjUwIiBoZWlnaHQ9IjMwIiByeD0iNSIgZmlsbD0iIzY2N2VlYSIvPgo8dGV4dCB4PSIxODUiIHk9IjI1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJDb3VyaWVyIj5TVU1NRVIxMDwvdGV4dD4KPCEtLSBDb3Vwb24gQ2FyZCAyIC0tPgo8cmVjdCB4PSIzNzIiIHk9IjE0MCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSIyMDAiIGNsYXNzPSJjYXJkIi8+Cjx0ZXh0IHg9IjM4MiIgeT0iMTcwIiBmb250LXNpemU9IjE4cHgiIGZpbGw9IiMzMzMiPkFkYXMgU3BvcnRzd2VhcjwvdGV4dD4KPHR4eqQgeD0iMzgyIiB5PSIxOTAiIGZvbnQtc2l6ZT0iMTRweCIgZmlsbD0iIzY2NiI+M2LMMJWSJ?ZGUgcsOWZHVjdGlvbiBzdXIgbGVzIGNoYXVzc3VyZXM8L3RleHQ+CjxyZWN0IHg9IjM4MiIgeT0iMjMwIiB3aWR0aD0iMjUwIiBoZWlnaHQ9IjMwIiByeD0iNSIgZmlsbD0iIzY2N2VlYSIvPgo8dGV4dCB4PSI1MDciIHk9IjI1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJDb3VyaWVyIj5TUE9SVDIwPC90ZXh0Pgo8IS0tIENvdXBvbiBDYXJkIDMgLS0+CjxyZWN0IHg9IjY5NCIgeT0iMTQwIiB3aWR0aD0iMjgwIiBoZWlnaHQ9IjIwMCIgY2xhc3M9ImNhcmQiLz4KPHR4eqQgeD0iNzA0IiB5PSIxNzAiIGZvbnQtc2l6ZT0iMThweCIgZmlsbD0iIzMzMyI+QW1hem9uPC90ZXh0Pgo8dGV4dCB4PSI3MDQiIHk9IjE5MCIgZm9udC1zaXplPSIxNHB4IiBmaWxsPSIjNjY2Ij5Qcm9kdWl0cyDDokVsOWN0cm9uaXF1ZXMgZW4gcHJvbW88L3RleHQ+CjxyZWN0IHg9IjcwNCIgeT0iMjMwIiB3aWR0aD0iMjUwIiBoZWlnaHQ9IjMwIiByeD0iNSIgZmlsbD0iIzY2N2VlYSIvPgo8dGV4dCB4PSI4MjkiIHk9IjI1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSJDb3VyaWVyIj5URUNIMjU8L3RleHQ+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MCIgeDE9IjAiIHkxPSIwIiB4Mj0iMTAyNCIgeTI9IjU3NiI+CjxzdG9wIHN0b3AtY29sb3I9IiM2NjdlZWEiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjNzY0YmEyIi8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+",
+            "sizes": "1024x576",
+            "type": "image/svg+xml",
+            "form_factor": "wide"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Rechercher Coupons",
+            "short_name": "Recherche",
+            "description": "Rechercher rapidement des coupons",
+            "url": "./?action=search",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMjQiIGZpbGw9IiM2NjdlZWEiLz4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHBhdGggZD0ibTIxIDIxLTUuMTk3LTUuMTk3bTAtLjAwM0E3LjVzgLjUgMCAxIDEgNSAwIDcuNSA3LjUgMCAwIDEgMTUuODAzIDE1LjgwM1oiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo8L3N2Zz4=",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        },
+        {
+            "name": "Coupons Populaires",
+            "short_name": "Populaires",
+            "description": "Voir les coupons les plus populaires",
+            "url": "./?filter=popular",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMjQiIGZpbGw9IiM3NjRiYTIiLz4KPHN2ZyB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTEyIDJsMyA3aDdaM'w2LTctNyAzIDcuNTdMOS40MyAyMiA2VDJIMTJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "edge_side_panel": {
+        "preferred_width": 400
+    },
+    "protocol_handlers": [
+        {
+            "protocol": "web+coupon",
+            "url": "./?coupon=%s"
+        }
+    ]
+}
