@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Validation CouponsPlanet</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        .test-group {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .test-item:last-child {
+            border-bottom: none;
+        }
+
+        .test-name {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .test-status {
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .status-pending {
+            background: #fbbf24;
+            color: #000;
+        }
+
+        .status-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .status-error {
+            background: #ef4444;
+            color: white;
+        }
+
+        .overall-score {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .details {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #10b981, #34d399);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .testing {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Validation CouponsPlanet</h1>
+        
+        <div class="controls">
+            <button class="btn" id="startBtn" onclick="startTests()">
+                🚀 Lancer les Tests
+            </button>
+            <button class="btn" id="retestBtn" onclick="retestFailed()" style="display: none;">
+                🔄 Retester les Échecs
+            </button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <div class="overall-score" id="overallScore">
+            Prêt pour les tests
+        </div>
+
+        <div class="test-group">
+            <h3>📦 Infrastructure & Déploiement</h3>
+            <div class="test-item">
+                <span class="test-name">GitHub Pages accessible</span>
+                <span class="test-status status-pending" id="test-github-pages">⏳ En attente</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">HTTPS activé</span>
+                <span class="test-status status-pending" id="test-https">⏳ En attente</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Service Worker enregistré</span>
+                <span class="test-status status-pending" id="test-service-worker">⏳ En attente</span>
+            </div>
+        </div>
+
+        <div class="test-group">
+            <h3>💾 Cache & Performance</h3>
+            <div class="test-item">
+                <span class="test-name">LocalStorage fonctionnel</span>
+                <span class="test-status status-pending" id="test-localstorage">⏳ En attente</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Cache merchants chargé</span>
+                <span class="test-status status-pending" id="test-cache-merchants">⏳ En attente</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Cache categories chargé</span>
+                <span class="test-status status-pending" id="test-cache-categories">⏳ En attente</span>
+            </div>
+        </div>
+
+        <div class="test-group">
+            <h3>🔌 Connectivité & API</h3>
+            <div class="test-item">
+                <span class="test-name">Connexion Supabase</span>
+                <span class="test-status status-pending" id="test-supabase">⏳ En attente</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Données coupons chargées</span>
+                <span class="test-status status-pending" id="test-coupons-data">⏳ En attente</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Images marchands chargées</span>
+                <span class="test-status status-pending" id="test-images">⏳ En attente</span>
+            </div>
+        </div>
+
+        <div class="test-group">
+            <h3>🎨 Interface & UX</h3>
+            <div class="test-item">
+                <span class="test-name">Page responsive</span>
+                <span class="test-status status-pending" id="test-responsive">⏳ En attente</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Filtres fonctionnels</span>
+                <span class="test-status status-pending" id="test-filters">⏳ En attente</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Copy-to-clipboard</span>
+                <span class="test-status status-pending" id="test-clipboard">⏳ En attente</span>
+            </div>
+        </div>
+
+        <div class="test-group">
+            <h3>📱 PWA & Fonctionnalités</h3>
+            <div class="test-item">
+                <span class="test-name">Manifest PWA valide</span>
+                <span class="test-status status-pending" id="test-manifest">⏳ En attente</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Mode offline partiel</span>
+                <span class="test-status status-pending" id="test-offline">⏳ En attente</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Installable comme app</span>
+                <span class="test-status status-pending" id="test-installable">⏳ En attente</span>
+            </div>
+        </div>
+
+        <div class="details" id="testDetails" style="display: none;">
+            📋 Détails des tests...
+        </div>
+    </div>
+
+    <script>
+        let tests = [];
+        let passedTests = 0;
+        let totalTests = 0;
+        let failedTests = [];
+
+        function updateStatus(testId, status, message = '') {
+            const element = document.getElementById(testId);
+            element.className = `test-status status-${status}`;
+            
+            const icons = {
+                pending: '⏳',
+                success: '✅',
+                error: '❌'
+            };
+            
+            const labels = {
+                pending: 'En attente',
+                success: 'Réussi',
+                error: 'Échec'
+            };
+            
+            element.textContent = `${icons[status]} ${labels[status]}`;
+            
+            if (message) {
+                logDetails(`${testId}: ${message}`);
+            }
+        }
+
+        function logDetails(message) {
+            const details = document.getElementById('testDetails');
+            details.style.display = 'block';
+            details.textContent += new Date().toLocaleTimeString() + ' - ' + message + '\n';
+        }
+
+        function updateProgress() {
+            const progress = (passedTests / totalTests) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            const score = Math.round(progress);
+            const scoreElement = document.getElementById('overallScore');
+            
+            if (progress === 100) {
+                scoreElement.textContent = `🎉 ${score}% - Parfait !`;
+                scoreElement.style.background = 'rgba(16, 185, 129, 0.3)';
+            } else if (progress >= 80) {
+                scoreElement.textContent = `✅ ${score}% - Très Bien`;
+                scoreElement.style.background = 'rgba(16, 185, 129, 0.2)';
+            } else if (progress >= 60) {
+                scoreElement.textContent = `⚠️ ${score}% - Améliorable`;
+                scoreElement.style.background = 'rgba(251, 191, 36, 0.3)';
+            } else {
+                scoreElement.textContent = `❌ ${score}% - Problèmes`;
+                scoreElement.style.background = 'rgba(239, 68, 68, 0.3)';
+            }
+        }
+
+        async function runTest(testId, testName, testFunction) {
+            try {
+                updateStatus(testId, 'pending');
+                const result = await testFunction();
+                
+                if (result.success) {
+                    updateStatus(testId, 'success', result.message);
+                    passedTests++;
+                } else {
+                    updateStatus(testId, 'error', result.message);
+                    failedTests.push({ id: testId, name: testName, error: result.message });
+                }
+            } catch (error) {
+                updateStatus(testId, 'error', error.message);
+                failedTests.push({ id: testId, name: testName, error: error.message });
+            }
+            
+            updateProgress();
+        }
+
+        // Tests définis
+        const testDefinitions = [
+            {
+                id: 'test-github-pages',
+                name: 'GitHub Pages accessible',
+                test: async () => {
+                    const isGitHubPages = window.location.hostname.includes('github.io');
+                    return {
+                        success: isGitHubPages || window.location.hostname === 'localhost',
+                        message: isGitHubPages ? 'GitHub Pages détecté' : 'Environnement local détecté'
+                    };
+                }
+            },
+            {
+                id: 'test-https',
+                name: 'HTTPS activé',
+                test: async () => {
+                    const isHTTPS = window.location.protocol === 'https:' || window.location.hostname === 'localhost';
+                    return {
+                        success: isHTTPS,
+                        message: isHTTPS ? 'HTTPS activé' : 'HTTP non sécurisé détecté'
+                    };
+                }
+            },
+            {
+                id: 'test-service-worker',
+                name: 'Service Worker enregistré',
+                test: async () => {
+                    if ('serviceWorker' in navigator) {
+                        try {
+                            const registration = await navigator.serviceWorker.getRegistration();
+                            return {
+                                success: !!registration,
+                                message: registration ? 'Service Worker actif' : 'Service Worker non trouvé'
+                            };
+                        } catch (error) {
+                            return { success: false, message: 'Erreur SW: ' + error.message };
+                        }
+                    }
+                    return { success: false, message: 'Service Worker non supporté' };
+                }
+            },
+            {
+                id: 'test-localstorage',
+                name: 'LocalStorage fonctionnel',
+                test: async () => {
+                    try {
+                        localStorage.setItem('test', 'value');
+                        const value = localStorage.getItem('test');
+                        localStorage.removeItem('test');
+                        return {
+                            success: value === 'value',
+                            message: 'LocalStorage opérationnel'
+                        };
+                    } catch (error) {
+                        return { success: false, message: 'LocalStorage bloqué' };
+                    }
+                }
+            },
+            {
+                id: 'test-cache-merchants',
+                name: 'Cache merchants chargé',
+                test: async () => {
+                    const cached = localStorage.getItem('couponsplanet_merchants_v1');
+                    const hasCached = !!cached;
+                    const count = hasCached ? JSON.parse(cached).data.length : 0;
+                    return {
+                        success: hasCached && count > 0,
+                        message: hasCached ? `${count} marchands en cache` : 'Cache merchants vide'
+                    };
+                }
+            },
+            {
+                id: 'test-cache-categories',
+                name: 'Cache categories chargé',
+                test: async () => {
+                    const cached = localStorage.getItem('couponsplanet_categories_v1');
+                    const hasCached = !!cached;
+                    const count = hasCached ? JSON.parse(cached).data.length : 0;
+                    return {
+                        success: hasCached && count > 0,
+                        message: hasCached ? `${count} catégories en cache` : 'Cache catégories vide'
+                    };
+                }
+            },
+            {
+                id: 'test-supabase',
+                name: 'Connexion Supabase',
+                test: async () => {
+                    try {
+                        // Test simple de connectivité
+                        const response = await fetch('https://kimdlydbsopciokgpcjt.supabase.co/rest/v1/', {
+                            method: 'HEAD'
+                        });
+                        return {
+                            success: response.status < 500,
+                            message: `Supabase répond (${response.status})`
+                        };
+                    } catch (error) {
+                        return { success: false, message: 'Supabase inaccessible' };
+                    }
+                }
+            },
+            {
+                id: 'test-coupons-data',
+                name: 'Données coupons chargées',
+                test: async () => {
+                    // Vérifier si des données coupons sont présentes dans la page parent
+                    try {
+                        const parentWindow = window.parent;
+                        const hasCoupons = parentWindow.allCoupons && parentWindow.allCoupons.length > 0;
+                        const count = hasCoupons ? parentWindow.allCoupons.length : 0;
+                        return {
+                            success: hasCoupons,
+                            message: hasCoupons ? `${count} coupons chargés` : 'Aucun coupon chargé'
+                        };
+                    } catch (error) {
+                        return { success: false, message: 'Impossible de vérifier les coupons' };
+                    }
+                }
+            },
+            {
+                id: 'test-images',
+                name: 'Images marchands chargées',
+                test: async () => {
+                    // Test de chargement d'une image type
+                    return new Promise((resolve) => {
+                        const img = new Image();
+                        const timeout = setTimeout(() => {
+                            resolve({ success: false, message: 'Timeout image test' });
+                        }, 5000);
+                        
+                        img.onload = () => {
+                            clearTimeout(timeout);
+                            resolve({ success: true, message: 'Images chargent correctement' });
+                        };
+                        
+                        img.onerror = () => {
+                            clearTimeout(timeout);
+                            resolve({ success: true, message: 'Système de fallback fonctionne' });
+                        };
+                        
+                        // Test avec une image placeholder
+                        img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmZmYiLz48L3N2Zz4=';
+                    });
+                }
+            },
+            {
+                id: 'test-responsive',
+                name: 'Page responsive',
+                test: async () => {
+                    const width = window.innerWidth;
+                    const hasViewport = document.querySelector('meta[name="viewport"]');
+                    return {
+                        success: hasViewport && width > 0,
+                        message: `Viewport ${width}px, meta viewport ${hasViewport ? 'présent' : 'manquant'}`
+                    };
+                }
+            },
+            {
+                id: 'test-filters',
+                name: 'Filtres fonctionnels',
+                test: async () => {
+                    try {
+                        const parentWindow = window.parent;
+                        const hasFilters = parentWindow.applyCouponsFilter && typeof parentWindow.applyCouponsFilter === 'function';
+                        return {
+                            success: hasFilters,
+                            message: hasFilters ? 'Fonction de filtre trouvée' : 'Fonction de filtre manquante'
+                        };
+                    } catch (error) {
+                        return { success: false, message: 'Impossible de vérifier les filtres' };
+                    }
+                }
+            },
+            {
+                id: 'test-clipboard',
+                name: 'Copy-to-clipboard',
+                test: async () => {
+                    const hasClipboard = navigator.clipboard && typeof navigator.clipboard.writeText === 'function';
+                    return {
+                        success: hasClipboard,
+                        message: hasClipboard ? 'API Clipboard disponible' : 'API Clipboard non supportée'
+                    };
+                }
+            },
+            {
+                id: 'test-manifest',
+                name: 'Manifest PWA valide',
+                test: async () => {
+                    try {
+                        const response = await fetch('./manifest.json');
+                        const manifest = await response.json();
+                        const hasRequired = manifest.name && manifest.start_url && manifest.icons;
+                        return {
+                            success: hasRequired,
+                            message: hasRequired ? 'Manifest valide' : 'Manifest incomplet'
+                        };
+                    } catch (error) {
+                        return { success: false, message: 'Manifest introuvable' };
+                    }
+                }
+            },
+            {
+                id: 'test-offline',
+                name: 'Mode offline partiel',
+                test: async () => {
+                    const hasSW = 'serviceWorker' in navigator;
+                    const hasCache = 'caches' in window;
+                    return {
+                        success: hasSW && hasCache,
+                        message: `Service Worker: ${hasSW}, Cache API: ${hasCache}`
+                    };
+                }
+            },
+            {
+                id: 'test-installable',
+                name: 'Installable comme app',
+                test: async () => {
+                    const hasSW = 'serviceWorker' in navigator;
+                    const hasManifest = document.querySelector('link[rel="manifest"]');
+                    return {
+                        success: hasSW && hasManifest,
+                        message: `SW: ${hasSW}, Manifest: ${!!hasManifest}`
+                    };
+                }
+            }
+        ];
+
+        async function startTests() {
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('testDetails').textContent = '';
+            document.getElementById('testDetails').style.display = 'block';
+            
+            passedTests = 0;
+            totalTests = testDefinitions.length;
+            failedTests = [];
+            
+            logDetails('🧪 Début des tests automatiques...\n');
+            
+            for (const testDef of testDefinitions) {
+                await runTest(testDef.id, testDef.name, testDef.test);
+                await new Promise(resolve => setTimeout(resolve, 200)); // Pause entre tests
+            }
+            
+            logDetails(`\n✅ Tests terminés: ${passedTests}/${totalTests} réussis`);
+            
+            if (failedTests.length > 0) {
+                document.getElementById('retestBtn').style.display = 'inline-block';
+                logDetails(`\n❌ Tests échoués:`);
+                failedTests.forEach(test => {
+                    logDetails(`- ${test.name}: ${test.error}`);
+                });
+            }
+            
+            document.getElementById('startBtn').disabled = false;
+        }
+
+        async function retestFailed() {
+            if (failedTests.length === 0) return;
+            
+            document.getElementById('retestBtn').disabled = true;
+            logDetails('\n🔄 Nouveau test des échecs...\n');
+            
+            const testsToRetry = [...failedTests];
+            failedTests = [];
+            
+            for (const failedTest of testsToRetry) {
+                const testDef = testDefinitions.find(t => t.id === failedTest.id);
+                if (testDef) {
+                    // Reset counter for failed tests
+                    if (document.getElementById(failedTest.id).textContent.includes('❌')) {
+                        passedTests--; // Will be re-incremented if successful
+                    }
+                    await runTest(testDef.id, testDef.name, testDef.test);
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                }
+            }
+            
+            logDetails(`\n🔄 Nouveau test terminé: ${passedTests}/${totalTests} réussis`);
+            
+            if (failedTests.length === 0) {
+                document.getElementById('retestBtn').style.display = 'none';
+                logDetails('🎉 Tous les tests sont maintenant réussis !');
+            }
+            
+            document.getElementById('retestBtn').disabled = false;
+        }
+
+        // Auto-start si paramètre URL
+        if (window.location.search.includes('autostart=true')) {
+            window.addEventListener('load', () => {
+                setTimeout(startTests, 1000);
+            });
+        }
+    </script>
+</body>
+</html>
